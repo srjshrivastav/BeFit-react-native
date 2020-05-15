@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { getMatriceInfo } from "../utils/helpers";
 import Slider from "./sliders";
 import Stepper from "./steppers";
+import DateHeader from "./DateHeader";
 export default class AddEntry extends React.Component {
   state = {
     run: 0,
@@ -44,6 +45,7 @@ export default class AddEntry extends React.Component {
 
     return (
       <View>
+        <DateHeader date={new Date().toLocaleDateString()} />
         {Object.keys(metaInfo).map((key) => {
           const { type, getIcons, ...rest } = metaInfo[key];
           const value = this.state[key];
