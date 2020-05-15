@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { getMetricInfo } from "./helpers";
+import { getMatriceInfo } from "../utils/helpers";
+import Slider from "./sliders";
+import Stepper from "./steppers";
 export default class AddEntry extends React.Component {
   state = {
     run: 0,
@@ -11,7 +13,7 @@ export default class AddEntry extends React.Component {
   };
 
   incremenet = (metric) => {
-    const { max, step } = getMetricInfo(metric);
+    const { max, step } = getMatriceInfo(metric);
 
     this.setState((state) => {
       const count = state[metric] + step;
@@ -23,7 +25,7 @@ export default class AddEntry extends React.Component {
   };
   decrement = (metric) => {
     this.setState((state) => {
-      const count = state[metric] - getMetricInfo(metric).step;
+      const count = state[metric] - getMatriceInfo(metric).step;
       return {
         ...state,
         [metric]: count < 0 ? 0 : count,
@@ -38,9 +40,20 @@ export default class AddEntry extends React.Component {
   };
 
   render() {
+    const metaInfo = getMatriceInfo();
+
     return (
       <View>
-        <Text>Hello In Entry</Text>
+        {Object.keys(metaInfo).map((key) => {
+          const { type, getIcons, ...rest } = metaInfo[key];
+          const value = this.state[key];
+          return (
+            <View key={key}>
+              {getIcons()}
+              {type === "slider" ? <Slider /> : <Stepper />}
+            </View>
+          );
+        })}
       </View>
     );
   }
