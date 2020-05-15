@@ -1,9 +1,18 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { getMatriceInfo } from "../utils/helpers";
-import Slider from "./sliders";
+import { View, Text, TouchableOpacity, Slider } from "react-native";
+import { getMatriceInfo, timeToString } from "../utils/helpers";
+import Sliders from "./sliders";
 import Stepper from "./steppers";
 import DateHeader from "./DateHeader";
+
+function SubmitBtn({ onPress }) {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Text>Submit</Text>
+    </TouchableOpacity>
+  );
+}
+
 export default class AddEntry extends React.Component {
   state = {
     run: 0,
@@ -39,7 +48,10 @@ export default class AddEntry extends React.Component {
       [metric]: value,
     }));
   };
-
+  submit = () => {
+    const key = timeToString();
+    const entry = this.state;
+  };
   render() {
     const metaInfo = getMatriceInfo();
 
@@ -52,10 +64,24 @@ export default class AddEntry extends React.Component {
           return (
             <View key={key}>
               {getIcons()}
-              {type === "slider" ? <Slider /> : <Stepper />}
+              {type === "slider" ? (
+                <Sliders
+                  value={value}
+                  onChange={(value) => this.slide(key, value)}
+                  {...rest}
+                />
+              ) : (
+                <Stepper
+                  value={value}
+                  onIncrement={this.incremenet}
+                  onDecrement={this.decrement}
+                  {...rest}
+                />
+              )}
             </View>
           );
         })}
+        <SubmitBtn onPress={this.submit} />
       </View>
     );
   }
