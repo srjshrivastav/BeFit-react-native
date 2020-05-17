@@ -1,12 +1,18 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Slider } from "react-native";
-import { getMatriceInfo, timeToString } from "../utils/helpers";
+import { View, Text, TouchableOpacity } from "react-native";
+import {
+  getMatriceInfo,
+  timeToString,
+  getDailyReminderValue,
+} from "../utils/helpers";
 import Sliders from "./sliders";
 import Stepper from "./steppers";
 import DateHeader from "./DateHeader";
 import TextBtn from "./Textbtn";
 import { Octicons } from "@expo/vector-icons";
 import { submitEntry, removeEntry } from "../utils/api";
+import { connect } from "react-redux";
+import { addEntry, receiveEntries } from "../actions";
 
 function SubmitBtn({ onPress }) {
   return (
@@ -16,7 +22,7 @@ function SubmitBtn({ onPress }) {
   );
 }
 
-export default class AddEntry extends React.Component {
+class AddEntry extends React.Component {
   state = {
     run: 0,
     bike: 0,
@@ -55,20 +61,30 @@ export default class AddEntry extends React.Component {
     const key = timeToString();
     const entry = this.state;
 
+    this.props.dispatch(
+      addEntry({
+        [key]: entry,
+      })
+    );
+
     submitEntry({ entry, key });
   };
 
   reset = () => {
     const key = timeToString();
 
-    //update redux
+    this.props.dispatch(
+      addEntry({
+        [key]: getDailyReminderValue(),
+      })
+    );
 
     removeEntry(key);
   };
   render() {
     const metaInfo = getMatriceInfo();
 
-    if (true) {
+    if (this.props.alreadyLoggedIn) {
       return (
         <View>
           <Octicons name="thumbsup" size={40} />
@@ -109,3 +125,11 @@ export default class AddEntry extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  const key = timeToString();
+  return {
+    alreadyLoggedIn: state[key] && state[key].today === undefined,
+  };
+}
+
+export default connect(mapStateToProps)(AddEntry);
