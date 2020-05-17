@@ -96,22 +96,26 @@ class AddEntry extends React.Component {
 
     if (this.props.alreadyLoggedIn) {
       return (
-        <View>
-          <Octicons name="thumbsup" size={40} />
+        <View style={styles.center}>
+          <Octicons name="thumbsup" size={50} />
           <Text>You already Logged your Information for today</Text>
-          <TextBtn onPress={this.reset}>Reset</TextBtn>
+          <TextBtn
+            style={{ padding: 20 }}
+            onPress={this.reset}
+            chidren={"Reset"}
+          />
         </View>
       );
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         <DateHeader date={new Date().toLocaleDateString()} />
         {Object.keys(metaInfo).map((key) => {
           const { type, getIcons, ...rest } = metaInfo[key];
           const value = this.state[key];
           return (
-            <View key={key}>
+            <View style={styles.row} key={key}>
               {getIcons()}
               {type === "slider" ? (
                 <Sliders
@@ -143,6 +147,16 @@ function mapStateToProps(state) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    borderColor: white,
+  },
+  row: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+  },
   iosBtn: {
     backgroundColor: purple,
     padding: 10,
@@ -166,6 +180,12 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     justifyContent: "center",
     alignItems: "center",
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 30,
   },
 });
 
