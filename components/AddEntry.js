@@ -4,6 +4,8 @@ import { getMatriceInfo, timeToString } from "../utils/helpers";
 import Sliders from "./sliders";
 import Stepper from "./steppers";
 import DateHeader from "./DateHeader";
+import TextBtn from "./Textbtn";
+import { Ionicons } from "@expo/vector-icons";
 
 function SubmitBtn({ onPress }) {
   return (
@@ -52,8 +54,20 @@ export default class AddEntry extends React.Component {
     const key = timeToString();
     const entry = this.state;
   };
+
+  reset = () => {};
   render() {
     const metaInfo = getMatriceInfo();
+
+    if (this.props.alreadyLogged) {
+      return (
+        <View>
+          <Ionicons name="ios-happy-outline" size={100} />
+          <Text>You already Logged your Information for today</Text>
+          <TextBtn onPress={this.reset}>Reset</TextBtn>
+        </View>
+      );
+    }
 
     return (
       <View>
