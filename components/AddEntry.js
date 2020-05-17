@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import {
   getMatriceInfo,
   timeToString,
@@ -13,11 +19,15 @@ import { Octicons } from "@expo/vector-icons";
 import { submitEntry, removeEntry } from "../utils/api";
 import { connect } from "react-redux";
 import { addEntry, receiveEntries } from "../actions";
+import { white, purple } from "../utils/colors";
 
 function SubmitBtn({ onPress }) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Text>Submit</Text>
+    <TouchableOpacity
+      style={Platform.OS === "ios" ? styles.iosBtn : styles.androidBtn}
+      onPress={onPress}
+    >
+      <Text style={styles.SubmitBtn}>Submit</Text>
     </TouchableOpacity>
   );
 }
@@ -131,5 +141,32 @@ function mapStateToProps(state) {
     alreadyLoggedIn: state[key] && state[key].today === undefined,
   };
 }
+
+const styles = StyleSheet.create({
+  iosBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  SubmitBtn: {
+    color: white,
+    fontSize: 22,
+    textAlign: "center",
+  },
+  androidBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 2,
+    height: 45,
+    alignSelf: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default connect(mapStateToProps)(AddEntry);
