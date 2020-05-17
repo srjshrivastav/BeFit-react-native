@@ -126,8 +126,8 @@ class AddEntry extends React.Component {
               ) : (
                 <Stepper
                   value={value}
-                  onIncrement={this.incremenet}
-                  onDecrement={this.decrement}
+                  onIncrement={() => this.incremenet(key)}
+                  onDecrement={() => this.decrement(key)}
                   {...rest}
                 />
               )}

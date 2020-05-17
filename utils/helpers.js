@@ -135,7 +135,7 @@ export function getMatriceInfo(metric) {
       },
     },
   };
-  return metric === undefined ? info : info[metric];
+  return typeof metric === "undefined" ? info : info[metric];
 }
 
 export function getDailyReminderValue() {
