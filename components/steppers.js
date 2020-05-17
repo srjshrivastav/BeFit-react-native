@@ -7,22 +7,34 @@ import {
   Text,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { white, purple } from "../utils/colors";
+import { white, purple, gray } from "../utils/colors";
 
 export default function Stepper({ value, onIncrement, onDecrement, unit }) {
   return (
     <View style={[styles.row, { justifyContent: "space-between" }]}>
       <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity style={styles.iosBtn} onPress={onDecrement}>
-          <FontAwesome name="minus" size={30} color={"black"} />
+        <TouchableOpacity
+          style={[
+            styles.iosBtn,
+            { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+          ]}
+          onPress={onDecrement}
+        >
+          <FontAwesome name="minus" size={30} color={purple} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iosBtn} onPress={onIncrement}>
-          <FontAwesome name="plus" size={30} color={"black"} />
+        <TouchableOpacity
+          style={[
+            styles.iosBtn,
+            { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
+          ]}
+          onPress={onIncrement}
+        >
+          <FontAwesome name="plus" size={30} color={purple} />
         </TouchableOpacity>
       </View>
-      <View>
-        <Text>{value}</Text>
-        <Text>{unit}</Text>
+      <View style={styles.metricCounter}>
+        <Text style={{ fontSize: 22, textAlign: "center" }}>{value}</Text>
+        <Text style={{ fontSize: 16, color: gray }}>{unit}</Text>
       </View>
     </View>
   );
@@ -42,5 +54,10 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingLeft: 25,
     paddingRight: 25,
+  },
+  metricCounter: {
+    width: 85,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
