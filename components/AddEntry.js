@@ -5,7 +5,8 @@ import Sliders from "./sliders";
 import Stepper from "./steppers";
 import DateHeader from "./DateHeader";
 import TextBtn from "./Textbtn";
-import { Ionicons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
+import { submitEntry, removeEntry } from "../utils/api";
 
 function SubmitBtn({ onPress }) {
   return (
@@ -53,16 +54,24 @@ export default class AddEntry extends React.Component {
   submit = () => {
     const key = timeToString();
     const entry = this.state;
+
+    submitEntry({ entry, key });
   };
 
-  reset = () => {};
+  reset = () => {
+    const key = timeToString();
+
+    //update redux
+
+    removeEntry(key);
+  };
   render() {
     const metaInfo = getMatriceInfo();
 
-    if (this.props.alreadyLogged) {
+    if (true) {
       return (
         <View>
-          <Ionicons name="ios-happy-outline" size={100} />
+          <Octicons name="thumbsup" size={40} />
           <Text>You already Logged your Information for today</Text>
           <TextBtn onPress={this.reset}>Reset</TextBtn>
         </View>

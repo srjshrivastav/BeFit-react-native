@@ -90,7 +90,7 @@ export function getMatriceInfo(metric) {
       getIcons() {
         return (
           <View>
-            <MaterialCommunityIcons name="Bike" color={"black"} size={35} />
+            <MaterialCommunityIcons name="bike" color={"black"} size={35} />
           </View>
         );
       },
