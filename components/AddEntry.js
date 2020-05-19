@@ -20,6 +20,7 @@ import { submitEntry, removeEntry } from "../utils/api";
 import { connect } from "react-redux";
 import { addEntry, receiveEntries } from "../actions";
 import { white, purple } from "../utils/colors";
+import { formatCalendarResults } from "../utils/_calander";
 
 function SubmitBtn({ onPress }) {
   return (
@@ -70,14 +71,20 @@ class AddEntry extends React.Component {
   submit = () => {
     const key = timeToString();
     const entry = this.state;
-
+    this.setState(() => ({
+      bike: 0,
+      swim: 0,
+      eat: 0,
+      run: 0,
+      sleep: 0,
+    }));
     this.props.dispatch(
       addEntry({
         [key]: entry,
       })
     );
 
-    submitEntry({ entry, key });
+    submitEntry(entry, key);
   };
 
   reset = () => {
