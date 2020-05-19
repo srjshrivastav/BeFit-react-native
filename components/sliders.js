@@ -4,7 +4,7 @@ import { gray } from "../utils/colors";
 
 export default function Sliders({ max, unit, step, value, onChange }) {
   return (
-    <View styles={styles.row}>
+    <View style={[styles.row]}>
       <Slider
         style={{ flex: 1 }}
         step={step}
@@ -14,8 +14,8 @@ export default function Sliders({ max, unit, step, value, onChange }) {
         onValueChange={onChange}
       />
       <View style={styles.metricCounter}>
-        <Text style={{ fontSize: 22, textAlign: "center" }}>{value}</Text>
-        <Text style={{ fontSize: 16, color: gray }}>{unit}</Text>
+        <Text style={{ fontSize: 20 }}>{value}</Text>
+        <Text style={{ fontSize: 15, color: gray }}>{unit}</Text>
       </View>
     </View>
   );
@@ -25,10 +25,11 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     flex: 1,
-    alignItems: "stretch",
+    alignItems: "center",
   },
   metricCounter: {
     width: 85,
     justifyContent: "center",
+    alignItems: "center",
   },
 });

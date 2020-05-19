@@ -5,7 +5,7 @@ import { purple } from "../utils/colors";
 export default function TextBtn({ chidren, onPress, style = {} }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <Text styles={[styles.reset, style]}>{chidren}</Text>
+      <Text style={[styles.reset, style]}>{chidren}</Text>
     </TouchableOpacity>
   );
 }
