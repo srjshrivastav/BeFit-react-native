@@ -7,19 +7,62 @@ import {
   StyleSheet,
 } from "react-native";
 import { Foundation } from "@expo/vector-icons";
-import { purple, white, lightPurp } from "../utils/colors";
+import { purple, white } from "../utils/colors";
+import { calculateDirection } from "../utils/helpers";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
 
 export default class Live extends React.Component {
   state = {
     coords: null,
-    status: "go",
+    status: null,
     direction: "",
   };
+  componentDidMount() {
+    this.askPermission();
+  }
 
-  askPermission = () => {};
+  askPermission = () => {
+    Location.requestPermissionsAsync()
+      .then(({ status }) => {
+        if (status === "granted") {
+          return this.setLocation();
+        }
+        this.setState(() => {
+          status;
+        });
+      })
+      .catch((error) => {
+        Console.warn("Error getting Location permission", error);
+        this.setState(() => ({
+          status: "undetermined",
+        }));
+      });
+  };
+
+  setLocation = () => {
+    Location.watchPositionAsync(
+      {
+        enableHighAccuracy: true,
+        timeInterval: 1,
+        distaceInterval: 1,
+      },
+      ({ coords }) => {
+        const newDirection = calculateDirection(coords.heading);
+        const { direction } = this.state;
+
+        this.setState(() => ({
+          coords,
+          status: "granted",
+          direction: newDirection,
+        }));
+      }
+    );
+  };
 
   render() {
     const { coords, status, direction } = this.state;
+    console.log(status);
     if (status === null) {
       return <ActivityIndicator style={{ marginTop: 30 }} />;
     }
