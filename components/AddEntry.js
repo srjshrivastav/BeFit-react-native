@@ -84,7 +84,7 @@ class AddEntry extends React.Component {
       })
     );
 
-    submitEntry(entry, key);
+    submitEntry({ entry, key });
   };
 
   reset = () => {
