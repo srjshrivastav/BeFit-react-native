@@ -3,8 +3,8 @@ import { View, Text, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import { receiveEntries, addEntry } from "../actions";
 import { getDailyReminderValue, timeToString } from "../utils/helpers";
-
 import { fetchCalenderResults } from "../utils/api";
+import UdaciFitnessCalendar from "udacifitness-calendar-fix";
 
 class History extends React.Component {
   componentDidMount() {
@@ -20,12 +20,27 @@ class History extends React.Component {
           );
       });
   }
+  renderItem = ({ today, ...metcrics }, formattedDate, key) => {
+    <View>
+      {today ? (
+        <Text>{JSON.stringify(today)}</Text>
+      ) : (
+        <Text>{JSON.stringify(metcrics)}</Text>
+      )}
+    </View>;
+  };
+  renderEmptyDate(formattedDate) {
+    return <Text>No data for today</Text>;
+  }
 
   render() {
+    const { entries } = this.props;
     return (
-      <View>
-        <Text>{JSON.stringify(this.props.entries)}</Text>
-      </View>
+      <UdaciFitnessCalendar
+        items={entries}
+        renderItem={this.renderItem}
+        renderEmptyDate={this.renderEmptyDate}
+      />
     );
   }
 }
