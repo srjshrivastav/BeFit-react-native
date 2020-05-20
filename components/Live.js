@@ -19,25 +19,34 @@ export default class Live extends React.Component {
     direction: "",
   };
   componentDidMount() {
-    this.askPermission();
-  }
-
-  askPermission = () => {
-    Location.requestPermissionsAsync()
+    Permissions.getAsync(Permissions.LOCATION)
       .then(({ status }) => {
         if (status === "granted") {
           return this.setLocation();
         }
-        this.setState(() => {
-          status;
-        });
+        this.setState(() => ({
+          status,
+        }));
       })
-      .catch((error) => {
-        Console.warn("Error getting Location permission", error);
+      .catch(({ error }) => {
         this.setState(() => ({
           status: "undetermined",
         }));
       });
+  }
+
+  askPermission = () => {
+    Permissions.askAsync(Permissions.LOCATION)
+      .then(({ status }) => {
+        if (status === "granted") {
+          return this.setLocation();
+        }
+
+        this.setState(() => ({
+          status,
+        }));
+      })
+      .catch((error) => console.log("Error asking location Permissin", error));
   };
 
   setLocation = () => {
@@ -50,19 +59,22 @@ export default class Live extends React.Component {
       ({ coords }) => {
         const newDirection = calculateDirection(coords.heading);
         const { direction } = this.state;
-
+        console.log(coords);
         this.setState(() => ({
           coords,
           status: "granted",
           direction: newDirection,
         }));
       }
-    );
+    ).catch(({ error }) => {
+      this.setState(() => ({
+        status: "undetermined",
+      }));
+    });
   };
 
   render() {
     const { coords, status, direction } = this.state;
-    console.log(status);
     if (status === null) {
       return <ActivityIndicator style={{ marginTop: 30 }} />;
     }
@@ -93,16 +105,20 @@ export default class Live extends React.Component {
       <View style={styles.container}>
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You're heading</Text>
-          <Text style={styles.direction}>North</Text>
+          <Text style={styles.direction}>{direction}</Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
             <Text style={[styles.header, { color: white }]}>Altitude</Text>
-            <Text style={[styles.subHeader, { color: white }]}>{400}Feet</Text>
+            <Text style={[styles.subHeader, { color: white }]}>
+              {Math.round(coords.altitude * 3.2808)} Feet
+            </Text>
           </View>
           <View style={styles.metric}>
             <Text style={[styles.header, { color: white }]}>Speed</Text>
-            <Text style={[styles.subHeader, { color: white }]}>{300} MPH</Text>
+            <Text style={[styles.subHeader, { color: white }]}>
+              {(coords.speed * 2.2369).toFixed(1)} MPH
+            </Text>
           </View>
         </View>
       </View>
