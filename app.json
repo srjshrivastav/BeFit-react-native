@@ -16,8 +16,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "package": "org.udacifitness.exp"
+      "supportsTablet": true
     },
     "notification": {
       "icon": "https://tylermcginnis.com/udacifitness-512.png"
