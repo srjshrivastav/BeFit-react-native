@@ -2,14 +2,10 @@
   "expo": {
     "name": "BeFit",
     "slug": "BeFit",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "https://tylermcginnis.com/udacifitness-512.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,11 +14,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "package": "org.udacifitness.exp"
+    },
+    "notification": {
+      "icon": "https://tylermcginnis.com/udacifitness-512.png"
+    },
+    "android": {
+      "package": "org.udacifitness.exp"
     }
   },
   "name": "BeFit"

@@ -10,6 +10,8 @@ import {
   getMatriceInfo,
   timeToString,
   getDailyReminderValue,
+  setLocalNotification,
+  clearLocalNotification,
 } from "../utils/helpers";
 import Sliders from "./sliders";
 import Stepper from "./steppers";
@@ -18,7 +20,7 @@ import TextBtn from "./Textbtn";
 import { Octicons } from "@expo/vector-icons";
 import { submitEntry, removeEntry } from "../utils/api";
 import { connect } from "react-redux";
-import { addEntry, receiveEntries } from "../actions";
+import { addEntry } from "../actions";
 import { white, purple } from "../utils/colors";
 
 function SubmitBtn({ onPress }) {
@@ -84,6 +86,8 @@ class AddEntry extends React.Component {
     );
 
     submitEntry({ entry, key });
+
+    clearLocalNotification().then(setLocalNotification);
   };
 
   reset = () => {
