@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text, AsyncStorage } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { connect } from "react-redux";
 import { receiveEntries, addEntry } from "../actions";
 import { getDailyReminderValue, timeToString } from "../utils/helpers";
 import { fetchCalenderResults } from "../utils/api";
 import UdaciFitnessCalendar from "udacifitness-calendar-fix";
-
+import { white } from "../utils/colors";
+import DateHeader from "./DateHeader";
 class History extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
@@ -21,16 +28,30 @@ class History extends React.Component {
       });
   }
   renderItem = ({ today, ...metcrics }, formattedDate, key) => {
-    <View>
-      {today ? (
-        <Text>{JSON.stringify(today)}</Text>
-      ) : (
-        <Text>{JSON.stringify(metcrics)}</Text>
-      )}
-    </View>;
+    return (
+      <View style={styles.item}>
+        {today ? (
+          <View>
+            <DateHeader date={formattedDate} />
+            <Text style={styles.noDataText}>{today}</Text>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={() => console.log("pressed")}>
+            <Text>{JSON.stringify(metcrics)}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
   };
   renderEmptyDate(formattedDate) {
-    return <Text>No data for today</Text>;
+    return (
+      <View style={styles.item}>
+        <DateHeader date={formattedDate} />
+        <Text style={styles.noDataText}>
+          You didn't log any data on this day.
+        </Text>
+      </View>
+    );
   }
 
   render() {
@@ -49,5 +70,29 @@ function mapStateToProps(entries) {
     entries,
   };
 }
+
+const styles = StyleSheet.create({
+  item: {
+    backgroundColor: white,
+    borderRadius: 16,
+    padding: 20,
+    marginRight: 10,
+    marginLeft: 10,
+    marginTop: 17,
+    justifyContent: "center",
+    shadowRadius: 3,
+    shadowOpacity: 0.8,
+    shadowColor: "rgba(0,0,0,0.24)",
+    shadowOffset: {
+      height: 3,
+      width: 0,
+    },
+  },
+  noDataText: {
+    fontSize: 20,
+    paddingBottom: 20,
+    paddingTop: 20,
+  },
+});
 
 export default connect(mapStateToProps)(History);

@@ -20,7 +20,6 @@ import { submitEntry, removeEntry } from "../utils/api";
 import { connect } from "react-redux";
 import { addEntry, receiveEntries } from "../actions";
 import { white, purple } from "../utils/colors";
-import { formatCalendarResults } from "../utils/_calander";
 
 function SubmitBtn({ onPress }) {
   return (
