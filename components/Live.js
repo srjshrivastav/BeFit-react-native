@@ -81,7 +81,7 @@ export default class Live extends React.Component {
   };
 
   render() {
-    const { coords, status, direction } = this.state;
+    const { coords, status, direction, bounceValue } = this.state;
     if (status === null) {
       return <ActivityIndicator style={{ marginTop: 30 }} />;
     }
@@ -112,7 +112,11 @@ export default class Live extends React.Component {
       <View style={styles.container}>
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You're heading</Text>
-          <Text style={styles.direction}>{direction}</Text>
+          <Animated.Text
+            style={[styles.direction, { transform: [{ scale: bounceValue }] }]}
+          >
+            {direction}
+          </Animated.Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
