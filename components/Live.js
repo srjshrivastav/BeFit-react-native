@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
+  Animated,
 } from "react-native";
 import { Foundation } from "@expo/vector-icons";
 import { purple, white } from "../utils/colors";
@@ -17,6 +18,7 @@ export default class Live extends React.Component {
     coords: null,
     status: null,
     direction: "",
+    bounceValue: new Animated.Value(1),
   };
   componentDidMount() {
     Permissions.getAsync(Permissions.LOCATION)
@@ -58,8 +60,13 @@ export default class Live extends React.Component {
       },
       ({ coords }) => {
         const newDirection = calculateDirection(coords.heading);
-        const { direction } = this.state;
-        console.log(coords);
+        const { direction, bounceValue } = this.state;
+        if (newDirection !== direction) {
+          Animated.sequence([
+            Animated.timing(bounceValue, { duration: 200, toValue: 1.04 }),
+            Animated.spring(bounceValue, { friction: 4, toValue: 1 }),
+          ]).start();
+        }
         this.setState(() => ({
           coords,
           status: "granted",
