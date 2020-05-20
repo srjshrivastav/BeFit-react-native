@@ -10,6 +10,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { purple, white } from "./utils/colors";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
+import Live from "./components/Live";
 
 function UdacityStatusBar({ backgroundColor, ...props }) {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         >
           <Tabs.Screen name="History" component={History} />
           <Tabs.Screen name="AddEntry" component={AddEntry} />
+          <Tabs.Screen name="Live" component={Live} />
         </Tabs.Navigator>
       </Provider>
     </NavigationContainer>
